@@ -1,12 +1,7 @@
-import React from "react";
-import { View } from "react-native";
+import PlaceForm from "../components/Places/PlaceForm";
 
 function AddPlaces() {
-  return (
-    <View>
-      <Text>AddPlaces</Text>
-    </View>
-  );
+  return <PlaceForm />;
 }
 
 export default AddPlaces;
