@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "248e97c5-8b49-4736-8e00-161566bded40"
+      }
+    },
+    "owner": "fedronicfelix"
   }
 }
