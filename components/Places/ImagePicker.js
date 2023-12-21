@@ -1,19 +1,11 @@
-import { useState, useEffect } from "react";
-import {
-  Button,
-  Image,
-  View,
-  Platform,
-  Alert,
-  Text,
-  StyleSheet,
-} from "react-native";
+import { useState } from "react";
+import { Image, View, Alert, Text, StyleSheet } from "react-native";
 import {
   launchCameraAsync,
   useCameraPermissions,
   PermissionStatus,
 } from "expo-image-picker";
-import IconButton from "../../UI/IconButton";
+
 import { Colors } from "../../constants/color";
 import OutlineButton from "../../UI/OutlineButton";
 
@@ -62,6 +54,7 @@ export default function ImagePicker() {
   if (image) {
     imagePreview = <Image source={{ uri: image }} style={styles.image} />;
   }
+  
   return (
     <View>
       <View style={styles.imagePreview}>{imagePreview}</View>
