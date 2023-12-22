@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, TextInput } from "react-native";
+import { Alert, ScrollView, StyleSheet, TextInput } from "react-native";
 import { Text, View } from "react-native";
 import { Colors } from "../../constants/color";
 import ImagePicker from "./ImagePicker";
 import LocationPicker from "./LocationPicker";
 import Button from "../../UI/Button";
+import { getAdress } from "../../util/location";
 
 function PlaceForm() {
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredLocation, setEnteredLocation] = useState();
   const [capturedImage, setCapturedImage] = useState();
+  const [adress, setAdress] = useState();
 
   function changeTitleHandler(enteredText) {
     setEnteredTitle(enteredText);
@@ -23,11 +25,29 @@ function PlaceForm() {
     setCapturedImage(image);
   }
 
-  function saveFavoritePlace() {
+  function saveReadableAdressHandler(adress) {
+    setAdress(adress);
+  }
+
+  // function saveReadableAdress(location) {
+  //   const adress = getAdress(location.lat, location.lng);
+  //   if (!readabledAdress) {
+  //     Alert.alert(
+  //       "An error occured",
+  //       "please enter a valid location to set a readable human adress."
+  //     );
+  //     return;
+  //   }
+
+  //   setAdress(readabledAdress);
+  // }
+
+  async function saveFavoritePlace() {
     console.log({
       title: enteredTitle,
       location: enteredLocation,
       imageUri: capturedImage,
+      adress: adress,
     });
   }
 
@@ -42,9 +62,12 @@ function PlaceForm() {
         />
       </View>
       <ImagePicker captureImageHandler={saveCapturedImageHandler} />
-      <LocationPicker saveLocationHandler={saveEnteredLocationHandler} />
-      {enteredLocation && enteredTitle && capturedImage && (
-        <Button onPress={saveFavoritePlace} >Add Place</Button>
+      <LocationPicker
+        saveLocationHandler={saveEnteredLocationHandler}
+        saveReadableAdressHandler={saveReadableAdressHandler}
+      />
+      {enteredLocation && enteredTitle && capturedImage && adress && (
+        <Button onPress={saveFavoritePlace}>Add Place</Button>
       )}
     </ScrollView>
   );

@@ -13,22 +13,30 @@ import {
 
 import OutlineButton from "../../UI/OutlineButton";
 import { Colors } from "../../constants/color";
-import getMapPreview from "../../util/location";
+import { getMapPreview, getAdress } from "../../util/location";
 
-function LocationPicker({ saveLocationHandler }) {
+function LocationPicker({ saveLocationHandler, saveReadableAdressHandler }) {
   const navigation = useNavigation();
   const route = useRoute();
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    if (isFocused && route.params) {
-      const mapPickedLocation = {
-        lat: route.params.pickedLat,
-        lng: route.params.pickedLng,
-      };
-      setPickedLocation(mapPickedLocation);
-      saveLocationHandler(mapPickedLocation);
+    async function isFocusedLocation() {
+      if (isFocused && route.params) {
+        const mapPickedLocation = {
+          lat: route.params.pickedLat,
+          lng: route.params.pickedLng,
+        };
+        const readabledAdress = await getAdress(mapPickedLocation);
+
+        setPickedLocation(mapPickedLocation);
+        saveLocationHandler(mapPickedLocation);
+        saveReadableAdressHandler(readabledAdress);
+      }
     }
+
+    isFocusedLocation();
+
   }, [route, isFocused]);
 
   const [pickedLocation, setPickedLocation] = useState(null);
@@ -69,6 +77,13 @@ function LocationPicker({ saveLocationHandler }) {
       lat: result.coords.latitude,
       lng: result.coords.longitude,
     });
+
+    const readabledAdress = await getAdress({
+      lat: result.coords.latitude,
+      lng: result.coords.longitude,
+    });
+
+    saveReadableAdressHandler(readabledAdress)
   }
 
   async function pickOnMapHandler() {
