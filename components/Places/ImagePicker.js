@@ -9,7 +9,7 @@ import {
 import { Colors } from "../../constants/color";
 import OutlineButton from "../../UI/OutlineButton";
 
-export default function ImagePicker() {
+export default function ImagePicker({ captureImageHandler }) {
   const [cameraPermission, requestPermission] = useCameraPermissions();
 
   async function verifyPermission() {
@@ -46,6 +46,7 @@ export default function ImagePicker() {
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
+      captureImageHandler(result.assets[0].uri);
     }
   }
 
@@ -54,7 +55,7 @@ export default function ImagePicker() {
   if (image) {
     imagePreview = <Image source={{ uri: image }} style={styles.image} />;
   }
-  
+
   return (
     <View>
       <View style={styles.imagePreview}>{imagePreview}</View>

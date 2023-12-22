@@ -4,6 +4,7 @@ import { Text, View } from "react-native";
 import { Colors } from "../../constants/color";
 import ImagePicker from "./ImagePicker";
 import LocationPicker from "./LocationPicker";
+import Button from "../../UI/Button";
 
 function PlaceForm() {
   const [enteredTitle, setEnteredTitle] = useState("");
@@ -12,6 +13,22 @@ function PlaceForm() {
 
   function changeTitleHandler(enteredText) {
     setEnteredTitle(enteredText);
+  }
+
+  function saveEnteredLocationHandler(location) {
+    setEnteredLocation(location);
+  }
+
+  function saveCapturedImageHandler(image) {
+    setCapturedImage(image);
+  }
+
+  function saveFavoritePlace() {
+    console.log({
+      title: enteredTitle,
+      location: enteredLocation,
+      imageUri: capturedImage,
+    });
   }
 
   return (
@@ -24,8 +41,11 @@ function PlaceForm() {
           value={enteredTitle}
         />
       </View>
-      <ImagePicker />
-      <LocationPicker />
+      <ImagePicker captureImageHandler={saveCapturedImageHandler} />
+      <LocationPicker saveLocationHandler={saveEnteredLocationHandler} />
+      {enteredLocation && enteredTitle && capturedImage && (
+        <Button onPress={saveFavoritePlace} >Add Place</Button>
+      )}
     </ScrollView>
   );
 }

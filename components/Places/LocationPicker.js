@@ -15,7 +15,7 @@ import OutlineButton from "../../UI/OutlineButton";
 import { Colors } from "../../constants/color";
 import getMapPreview from "../../util/location";
 
-function LocationPicker() {
+function LocationPicker({ saveLocationHandler }) {
   const navigation = useNavigation();
   const route = useRoute();
   const isFocused = useIsFocused();
@@ -60,6 +60,11 @@ function LocationPicker() {
     const result = await getCurrentPositionAsync({});
 
     setPickedLocation({
+      lat: result.coords.latitude,
+      lng: result.coords.longitude,
+    });
+    
+    saveLocationHandler({
       lat: result.coords.latitude,
       lng: result.coords.longitude,
     });
