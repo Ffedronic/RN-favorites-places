@@ -27,6 +27,7 @@ function LocationPicker({ saveLocationHandler }) {
         lng: route.params.pickedLng,
       };
       setPickedLocation(mapPickedLocation);
+      saveLocationHandler(mapPickedLocation);
     }
   }, [route, isFocused]);
 
@@ -63,7 +64,7 @@ function LocationPicker({ saveLocationHandler }) {
       lat: result.coords.latitude,
       lng: result.coords.longitude,
     });
-    
+
     saveLocationHandler({
       lat: result.coords.latitude,
       lng: result.coords.longitude,
