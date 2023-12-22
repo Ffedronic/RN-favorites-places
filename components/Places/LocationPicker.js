@@ -1,15 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   useForegroundPermissions,
   PermissionStatus,
   getCurrentPositionAsync,
 } from "expo-location";
 import { StyleSheet, View, Text, Image } from "react-native";
+import {
+  useNavigation,
+  useRoute,
+  useIsFocused,
+} from "@react-navigation/native";
+
 import OutlineButton from "../../UI/OutlineButton";
 import { Colors } from "../../constants/color";
 import getMapPreview from "../../util/location";
 
 function LocationPicker() {
+  const navigation = useNavigation();
+  const route = useRoute();
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused && route.params) {
+      const mapPickedLocation = {
+        lat: route.params.pickedLat,
+        lng: route.params.pickedLng,
+      };
+      setPickedLocation(mapPickedLocation);
+    }
+  }, [route, isFocused]);
+
   const [pickedLocation, setPickedLocation] = useState(null);
   const [locationPermission, requestPermission] = useForegroundPermissions();
 
@@ -45,17 +65,20 @@ function LocationPicker() {
     });
   }
 
-  async function pickOnMapHandler() {}
+  async function pickOnMapHandler() {
+    navigation.navigate("Map");
+  }
 
   let locationPreview = <Text>No Location taken yet.</Text>;
 
   if (pickedLocation) {
+    console.log(getMapPreview(pickedLocation.lat, pickedLocation.lng));
     locationPreview = (
       <Image
         source={{
           uri: getMapPreview(pickedLocation.lat, pickedLocation.lng),
         }}
-        style={styles.map}
+        style={styles.mapImage}
       />
     );
   }
@@ -91,7 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
   },
-  map: {
+  mapImage: {
     width: "100%",
     height: "100%",
   },

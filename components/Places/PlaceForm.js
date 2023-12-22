@@ -7,6 +7,8 @@ import LocationPicker from "./LocationPicker";
 
 function PlaceForm() {
   const [enteredTitle, setEnteredTitle] = useState("");
+  const [enteredLocation, setEnteredLocation] = useState();
+  const [capturedImage, setCapturedImage] = useState();
 
   function changeTitleHandler(enteredText) {
     setEnteredTitle(enteredText);
