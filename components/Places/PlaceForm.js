@@ -1,17 +1,26 @@
 import React, { useState } from "react";
-import { Alert, ScrollView, StyleSheet, TextInput } from "react-native";
+import { ScrollView, StyleSheet, TextInput } from "react-native";
 import { Text, View } from "react-native";
 import { Colors } from "../../constants/color";
 import ImagePicker from "./ImagePicker";
 import LocationPicker from "./LocationPicker";
 import Button from "../../UI/Button";
-import { getAdress } from "../../util/location";
+import { Place } from "../../models/place";
 
-function PlaceForm() {
+/**
+ * The PlaceForm function is a component that renders a form for creating a new place, including fields
+ * for title, image, and location.
+ * @returns The PlaceForm component is returning a ScrollView component that contains a form for
+ * entering and saving information about a place. The form includes a TextInput for entering a title,
+ * an ImagePicker component for capturing and saving an image, and a LocationPicker component for
+ * selecting and saving a location. If all the required information (enteredTitle, capturedImage, and
+ * enteredLocation) is present, a Button component is rendered that
+ */
+function PlaceForm({ onCreatePlace }) {
+
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredLocation, setEnteredLocation] = useState();
   const [capturedImage, setCapturedImage] = useState();
-  const [adress, setAdress] = useState();
 
   function changeTitleHandler(enteredText) {
     setEnteredTitle(enteredText);
@@ -25,30 +34,9 @@ function PlaceForm() {
     setCapturedImage(image);
   }
 
-  function saveReadableAdressHandler(adress) {
-    setAdress(adress);
-  }
-
-  // function saveReadableAdress(location) {
-  //   const adress = getAdress(location.lat, location.lng);
-  //   if (!readabledAdress) {
-  //     Alert.alert(
-  //       "An error occured",
-  //       "please enter a valid location to set a readable human adress."
-  //     );
-  //     return;
-  //   }
-
-  //   setAdress(readabledAdress);
-  // }
-
-  async function saveFavoritePlace() {
-    console.log({
-      title: enteredTitle,
-      location: enteredLocation,
-      imageUri: capturedImage,
-      adress: adress,
-    });
+  function saveFavoritePlace() {
+    const placeData = new Place(enteredTitle, capturedImage, enteredLocation);
+    onCreatePlace(placeData);
   }
 
   return (
@@ -62,11 +50,8 @@ function PlaceForm() {
         />
       </View>
       <ImagePicker captureImageHandler={saveCapturedImageHandler} />
-      <LocationPicker
-        saveLocationHandler={saveEnteredLocationHandler}
-        saveReadableAdressHandler={saveReadableAdressHandler}
-      />
-      {enteredLocation && enteredTitle && capturedImage && adress && (
+      <LocationPicker saveLocationHandler={saveEnteredLocationHandler} />
+      {enteredLocation && enteredTitle && capturedImage && (
         <Button onPress={saveFavoritePlace}>Add Place</Button>
       )}
     </ScrollView>

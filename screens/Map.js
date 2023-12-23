@@ -4,6 +4,14 @@ import { Alert, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import IconButton from "../UI/IconButton";
 
+/**
+ * The `Map` function is a JavaScript component that renders a map view with the ability to select and
+ * save a location.
+ * @returns The `Map` component returns a `View` component containing a `MapView` component. The
+ * `MapView` component is responsible for rendering a map with the specified initial region and user
+ * location. It also allows the user to select a location on the map by tapping on it, and displays a
+ * marker at the selected location if one has been chosen. The `View` component has a flex of 1
+ */
 function Map() {
   const navigation = useNavigation();
   const [selectedLocation, setSelectedLocation] = useState();
@@ -14,6 +22,8 @@ function Map() {
     longitudeDelta: 0.0421,
   };
 
+/* The `useLayoutEffect` hook is used to perform side effects after the component has rendered and the
+layout has been updated. In this case, it is used to set the options for the navigation header, a button icon allowing you to save a picked location on the map screen. */
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: ({ tintColor }) => (
@@ -27,12 +37,25 @@ function Map() {
     });
   }, [navigation, savePickedLocationHandler]);
 
+/**
+ * The function `selectLocationHandler` takes an event object and extracts the latitude and longitude
+ * coordinates from it, then sets the selected location using those coordinates.
+ * @param event - The event parameter is an object that contains information about the event that
+ * triggered the function. In this case, it is an event related to selecting a location on a map. The
+ * event object has a property called `nativeEvent` which contains information specific to the native
+ * platform (e.g., iOS or Android
+ */
   function selectLocationHandler(event) {
     const lat = event.nativeEvent.coordinate.latitude;
     const lng = event.nativeEvent.coordinate.longitude;
     setSelectedLocation({ lat: lat, lng: lng });
   }
 
+/**
+ * The function saves the picked location and navigates to the "AddPlace" screen with the latitude and
+ * longitude of the selected location.
+ * @returns nothing (undefined).
+ */
   function savePickedLocationHandler() {
     if (!selectedLocation) {
       Alert.alert(

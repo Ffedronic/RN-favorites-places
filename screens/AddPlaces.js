@@ -1,7 +1,11 @@
 import PlaceForm from "../components/Places/PlaceForm";
 
 function AddPlaces() {
-  return <PlaceForm />;
+  function onCreatePlace(placeData) {
+    console.log(placeData);
+  }
+
+  return <PlaceForm onCreatePlace={onCreatePlace} />;
 }
 
 export default AddPlaces;

@@ -9,9 +9,22 @@ import {
 import { Colors } from "../../constants/color";
 import OutlineButton from "../../UI/OutlineButton";
 
+/**
+ * The `ImagePicker` function is a React component that allows the user to capture an image using the
+ * device's camera and display a preview of the captured image.
+ * @returns a React component that renders an image picker. It displays a preview of the selected image
+ * (if any) and a button to take a new image.
+ */
 export default function ImagePicker({ captureImageHandler }) {
   const [cameraPermission, requestPermission] = useCameraPermissions();
 
+/**
+ * The function checks the status of camera permission and requests it if it is undetermined, displays
+ * an alert if it is denied, and returns true if it is granted.
+ * @returns The function `verifyPermission` returns a boolean value. It returns `true` if the camera
+ * permission status is either `UNDETERMINED` or `GRANTED`. It returns `false` if the camera permission
+ * status is `DENIED`.
+ */
   async function verifyPermission() {
     if (cameraPermission.status === PermissionStatus.UNDETERMINED) {
       const permissionResponse = await requestPermission();
@@ -31,6 +44,11 @@ export default function ImagePicker({ captureImageHandler }) {
 
   const [image, setImage] = useState(null);
 
+/**
+ * The `takeImageHandler` function is an asynchronous function that handles taking an image using the
+ * device's camera, verifying permission, launching the camera, and capturing the image.
+ * @returns The function `takeImageHandler` returns nothing (undefined).
+ */
   async function takeImageHandler() {
     const hasPermission = await verifyPermission();
 

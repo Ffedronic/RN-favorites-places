@@ -11,6 +11,7 @@ import { Colors } from "./constants/color";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
+
   return (
     <>
       <StatusBar style="auto" />
