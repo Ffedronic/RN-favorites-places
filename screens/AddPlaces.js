@@ -1,11 +1,11 @@
 import PlaceForm from "../components/Places/PlaceForm";
 
-function AddPlaces() {
-  function onCreatePlace(placeData) {
-    console.log(placeData);
+function AddPlaces({ navigation }) {
+  function onCreatePlaceHandler(placeData) {
+    navigation.navigate("AllPlaces", { place: placeData });
   }
 
-  return <PlaceForm onCreatePlace={onCreatePlace} />;
+  return <PlaceForm onCreatePlace={onCreatePlaceHandler} />;
 }
 
 export default AddPlaces;
