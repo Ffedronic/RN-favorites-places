@@ -13,7 +13,7 @@ function AllPlaces({ route }) {
         route.params.place,
       ]);
     }
-  }, []);
+  }, [isFocused, route]);
 
   return <PlacesList places={loadedPlaces} />;
 }

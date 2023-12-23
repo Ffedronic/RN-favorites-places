@@ -38,7 +38,7 @@ effect is triggered whenever the `route` or `isFocused` variables change and sav
         const readabledAdress = await getAdress(mapPickedLocation);
 
         setPickedLocation(mapPickedLocation);
-        saveLocationHandler({ ...mapPickedLocation, adress: readabledAdress });
+        saveLocationHandler({ ...mapPickedLocation, address: readabledAdress });
       }
     }
 
@@ -100,7 +100,7 @@ effect is triggered whenever the `route` or `isFocused` variables change and sav
     saveLocationHandler({
       lat: result.coords.latitude,
       lng: result.coords.longitude,
-      adress: readabledAdress,
+      address: readabledAdress,
     });
   }
 

@@ -17,7 +17,6 @@ import { Place } from "../../models/place";
  * enteredLocation) is present, a Button component is rendered that
  */
 function PlaceForm({ onCreatePlace }) {
-
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredLocation, setEnteredLocation] = useState();
   const [capturedImage, setCapturedImage] = useState();
@@ -36,6 +35,9 @@ function PlaceForm({ onCreatePlace }) {
 
   function saveFavoritePlace() {
     const placeData = new Place(enteredTitle, capturedImage, enteredLocation);
+    
+    console.log(placeData);
+    
     onCreatePlace(placeData);
   }
 
