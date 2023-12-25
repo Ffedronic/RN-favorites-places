@@ -33,12 +33,12 @@ function PlaceForm({ onCreatePlace }) {
     setCapturedImage(image);
   }
 
-  function saveFavoritePlace() {
+  async function saveFavoritePlace() {
     const placeData = new Place(enteredTitle, capturedImage, enteredLocation);
     
     console.log(placeData);
     
-    onCreatePlace(placeData);
+    await onCreatePlace(placeData);
   }
 
   return (

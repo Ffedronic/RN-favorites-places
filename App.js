@@ -8,19 +8,40 @@ import PlaceDetails from "./screens/PlaceDetails";
 import Map from "./screens/Map";
 import IconButton from "./UI/IconButton";
 import { Colors } from "./constants/color";
+import { useEffect, useState } from "react";
+import { init } from "./util/database/database";
+import AppLoading from "expo-app-loading";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
+
+  const [dbInitialized, setDbInitialized] = useState(false);
+
+  useEffect(() => {
+    init()
+      .then(() => {
+        setDbInitialized(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  if (!dbInitialized) {
+    return <AppLoading />;
+  }
 
   return (
     <>
       <StatusBar style="auto" />
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{
-          headerStyle:{backgroundColor: Colors.primary500},
-          headerTintColor:Colors.gray700,
-          contentStyle:{backgroundColor:Colors.gray700}
-        }}>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: { backgroundColor: Colors.primary500 },
+            headerTintColor: Colors.gray700,
+            contentStyle: { backgroundColor: Colors.gray700 },
+          }}
+        >
           <Stack.Screen
             name="AllPlaces"
             component={AllPlaces}
@@ -35,9 +56,13 @@ export default function App() {
               ),
             })}
           />
-          <Stack.Screen name="AddPlace" component={AddPlaces} options={{
-            title:"Add A New Place"
-          }}/>
+          <Stack.Screen
+            name="AddPlace"
+            component={AddPlaces}
+            options={{
+              title: "Add A New Place",
+            }}
+          />
           <Stack.Screen name="PlaceDetails" component={PlaceDetails} />
           <Stack.Screen name="Map" component={Map} />
         </Stack.Navigator>
