@@ -55,7 +55,7 @@ export async function insertPlace(place) {
   return promise;
 }
 
-export async function fetchPlaces() {
+export function fetchPlaces() {
   const promise = new Promise((resolve, reject) => {
     database.transaction((transactionObject) => {
       transactionObject.executeSql(
@@ -64,11 +64,16 @@ export async function fetchPlaces() {
         (_, result) => {
           let places = [];
           for (let element of result.rows._array) {
-            const place = new Place(element.title, element.imageUri, {
-              address: element.address,
-              lat: element.lat,
-              lng: element.lng,
-            });
+            const place = new Place(
+              element.title,
+              element.imageUri,
+              {
+                address: element.address,
+                lat: element.lat,
+                lng: element.lng,
+              },
+              element.id
+            );
             places.push(place);
           }
 
@@ -81,5 +86,23 @@ export async function fetchPlaces() {
     });
   });
 
+  return promise;
+}
+
+export function fetchPlaceDetails(id) {
+  const promise = new Promise((resolve, reject) => {
+    database.transaction((transactionObject) => {
+      transactionObject.executeSql(
+        "SELECT * FROM places WHERE id= ?",
+        [id],
+        (_, result) => {
+          resolve(result.rows._array[0]);
+        },
+        (_, error) => {
+          reject(error);
+        }
+      );
+    });
+  });
   return promise;
 }
