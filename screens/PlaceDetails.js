@@ -4,12 +4,13 @@ import OutlineButton from "../UI/OutlineButton";
 import { Colors } from "../constants/color";
 import { fetchPlaceDetails } from "../util/database/database";
 
-function PlaceDetails({ route }) {
+function PlaceDetails({ route, navigation }) {
   const [fetchedPlace, setFetchedPlace] = useState();
 
   function showOnMapHandler({ lat, lng }) {
-    console.log("lat: " + lat, "lng :" + lng);
+    navigation.navigate("Map", { initialLat: lat, initialLng: lng });
   }
+  
   const selectedPlaceId = route.params.placeId;
 
   useEffect(() => {
